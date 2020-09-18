@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements';
+import styles from './style';
 
 export default (props) => {
   let path = '';
-
   switch (props.type) {
     case 'drinkList':
       path = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -34,18 +34,11 @@ export default (props) => {
     fetchData();
   }, []);
   return (
-    <View
-      style={{
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#BBBBBB',
-      }}
-    >
+    <View style={styles.cardContainer}>
       <ScrollView
         alwaysBounceVertical
-        style={{ width: '100%', height: '70%' }}
-        contentContainerStyle={{ justifyContent: 'space-evenly' }}
+        style={styles.scrollViewStyle}
+        contentContainerStyle={styles.scrollViewContentContainer}
       >
         {isLoading ? (
           <ActivityIndicator />
@@ -60,7 +53,6 @@ export default (props) => {
               <Card containerStyle={{ borderRadius: 5 }}>
                 <Card.Title key={drink.idDrink}>
                   {props.type ? drink.strDrink : drink.strCategory}
-
                 </Card.Title>
               </Card>
             </TouchableOpacity>
