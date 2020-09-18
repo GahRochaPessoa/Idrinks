@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import {} from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
-export default (props) => {
-    return(
-        
-    );
-};
+export default (props) => (
+  <SafeAreaView>
+    <Text>
+      Drink Details
+    </Text>
+  </SafeAreaView>
+);

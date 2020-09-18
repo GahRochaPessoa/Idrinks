@@ -1,20 +1,37 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView, Text, View, ScrollView, TouchableOpacity, ActivityIndicator,
+  SafeAreaView,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { Card } from 'react-native-elements';
 
 export default (props) => {
+  let path = '';
+
+  switch (props.type) {
+    case 'drinkList':
+      path = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      break;
+    default:
+      path = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  }
+
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState(' ');
   useEffect(() => {
-    fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list')
-      .then((response) => response.json())
-      .then((json) => setData(json.drinks))
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+    const fetchData = async () => {
+      await fetch(path)
+        .then((response) => response.json())
+        .then((json) => setData(json.drinks))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    };
+    fetchData();
   }, []);
   return (
     <View
@@ -36,12 +53,14 @@ export default (props) => {
           data.map((drink) => (
             <TouchableOpacity
               onPress={() => {
-                console.warn(drink.strCategory);
+                const pressOption = drink.strCategory;
+                console.warn(pressOption);
               }}
             >
               <Card containerStyle={{ borderRadius: 5 }}>
-                <Card.Title key={drink.strCategory}>
-                  {drink.strCategory}
+                <Card.Title key={drink.idDrink}>
+                  {props.type ? drink.strDrink : drink.strCategory}
+
                 </Card.Title>
               </Card>
             </TouchableOpacity>
